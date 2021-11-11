@@ -3,6 +3,5 @@ Customer "1" <-- "n" invoice
 invoice "1 " <-- "1" invoice_item
 invoice_item "n" --> "1" product
 Employee "1" <-- "n" invoice
-warehouse "1" <-- "n" inventory
 inventory "1" --> "n" product
 @enduml
