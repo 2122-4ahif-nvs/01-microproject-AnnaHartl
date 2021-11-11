@@ -1,0 +1,24 @@
+= Gärtnerei Management
+Hartl Anna
+1.0.1, 2021-11-09:
+ifndef::imagesdir[:imagesdir: images]
+:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+== Anwendung
+
+Es wird eine Gärnerei verwalted und  die Pflanzen gespeichert die im Lager sind und verkauft wurden.
+Es werden Kunden gespeichert um bei z.b 10 Käufen einen Rabatt zu geben.
+Die Gärtnerei kann ihre Rechnungen einsehen.
+
+== ERD
+
+[plantuml,align=left]
+----
+include::plantuml/erd_garden.puml[]
+----

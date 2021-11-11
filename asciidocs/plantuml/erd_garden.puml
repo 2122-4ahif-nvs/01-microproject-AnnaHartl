@@ -1,0 +1,8 @@
+@startuml
+Customer ||..|{ Invoice
+Invoice ||..|| Invoice_item
+Invoice_item }|..|| Product
+Employee ||..|{ Invoice
+Warehouse ||..|{ Inventory
+Inventory ||..|{ Product
+@enduml
