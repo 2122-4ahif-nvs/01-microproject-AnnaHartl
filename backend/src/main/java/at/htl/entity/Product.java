@@ -1,5 +1,6 @@
 package at.htl.entity;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
 
 @Entity
@@ -10,8 +11,10 @@ import javax.persistence.*;
         )
 )
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonbProperty("product_id")
     Long id;
 
     String name;
@@ -27,6 +30,10 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
