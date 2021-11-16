@@ -3,3 +3,12 @@ GET http://localhost:8080/hello
 GET http://localhost:8080/product/getAll
 ###
 GET http://localhost:8080/product/getProduct/2
+
+###
+POST http://localhost:8080/product/add
+Content-Type: application/json
+
+{
+  "name": "Petersilie",
+  "description": "Gießen"
+}

@@ -1,14 +1,26 @@
 package at.htl.entity;
 
+import org.jboss.resteasy.annotations.Form;
+
 import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(
                 name = "Product.findAll",
                 query = "Select p from Product p"
+        ),
+        @NamedQuery(
+                name = "Product.findByName",
+                query = "Select p from Product p where p.name = :name"
+        ),
+        @NamedQuery(
+                name = "Product.countByInitial",
+                query = "Select substring(p.name,1,1), count(p) from Product p group by substring(p.name , 1,1)"
         )
+}
 )
 public class Product {
 
@@ -17,6 +29,7 @@ public class Product {
     @JsonbProperty("product_id")
     Long id;
 
+    @Column(name = "name", unique = true)
     String name;
     int productNr;
     String description;

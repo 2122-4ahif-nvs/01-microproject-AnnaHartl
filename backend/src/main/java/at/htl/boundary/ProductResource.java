@@ -3,13 +3,11 @@ package at.htl.boundary;
 import at.htl.controller.ProductRepository;
 import at.htl.entity.Product;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.annotations.Body;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -33,6 +31,21 @@ public class ProductResource {
     @Path("/getProduct/{id}")
     public Product getProduct(@PathParam("id") long id) {
         return repo.findProduct(id);
+    }
+
+    @POST
+    @Path("/add")
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces(MediaType.TEXT_PLAIN)
+    public String addProduct(
+            @FormParam("name") String name,
+            @FormParam("description") String desc,
+            @FormParam("price") double price,
+            @FormParam("productnr") int num
+    ) {
+        Product p = new Product(name, num, desc,price);
+        repo.save(p);
+        return p.toString();
     }
 
 }
