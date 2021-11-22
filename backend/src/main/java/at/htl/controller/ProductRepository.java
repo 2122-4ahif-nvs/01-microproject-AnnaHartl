@@ -61,4 +61,17 @@ public class ProductRepository {
         }
         return hashMap;
     }
+
+    @Transactional
+    public Product update(Long id, Product p){
+        p.setId(id);
+       return em.merge(p);
+    }
+
+    @Transactional
+    public void delete(Long id){
+        Product p = findProduct(id);
+        em.remove(p);
+    }
+
 }

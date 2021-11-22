@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 )
 public class Product {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonbProperty("product_id")
@@ -79,6 +80,9 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

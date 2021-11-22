@@ -30,4 +30,15 @@ class ProductRepositoryTest {
             System.out.printf("%s %d \n", e.getKey(), e.getValue());
         }
     }
+
+    @Test
+    void deleteProduct() {
+        productRepository.delete(1L);
+    }
+
+    @Test
+    void updatedProduct() {
+        Product p = new Product("Update", 345, "tss", 20.0);
+        productRepository.update(2L, p);
+    }
 }

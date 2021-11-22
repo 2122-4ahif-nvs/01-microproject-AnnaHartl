@@ -1,0 +1,72 @@
+= NVS Mitschrift
+Anna Hartl
+1.0.0, 2021-10-12:
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// print the toc here (not at the default position)
+//toc::[]
+
+== Repository Klassen
+* CRUD Methode
+* Datenbank verbindung mit EntityManager
+* @ApplicationScoped (= Lebt nur solange Quarkus läuft)
+* @Transactional wenn etwas verändert wird
+
+== Resource Klassen
+* POST, PUT,  GET, UPDATE, DELETE
+* @PathParam (= für Prameter in URL)
+* @FormParam (= für Parameter von Formular)
+
+== Unitests
+* Mit Alt+Einfg Test erstellen
+* @QuarkusTest (= Started instance von Quarkus)
+
+== Insert Statements in Datei
+* import.sql
+
+== CSV Datei einlesen
+            BufferedReader reader = Files.newBufferedReader(filePath, StandardCharsets.UTF_8);
+
+* Wird benötigt zum File einlesen
+* im while auf null überprüfen
+* spliten (";")
+
+== HTML Formular
+    action="http://localhost:8080/product/add" method="post"
+
+* action (= ruft Methode auf)
+
+== Init Bean
+    @Observes StartupEvent event
+
+* @ApplicationScoped
+
+== Named Query
+* Bei der Entity mit @NamedQueries und @NamedQuery
+
+    TypedQuery<Product> query = em.createNamedQuery("Product.findAll", Product.class);
+
+=== mit Parameter
+    @NamedQuery(
+        name = "Product.findId",
+        query = "Select p from Product p where p.id = :id"
+    )
+
+    TypedQuery<Product> query = em.createNamedQuery("Product.findAll", Product.class).setParameters("id", id);
+
+== Json P
+* eigenes Json Object erstellen
+
+    JsonObject jsonObject = Json.createObjectBuilder().add("name","test").build();
+
+== Sonstiges
+* Tabellen und spalten brauchen Prefix
+* Code nicht über den Rand hinaus
