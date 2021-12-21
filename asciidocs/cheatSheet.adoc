@@ -1,0 +1,31 @@
+= Cheat Sheet
+Hartl Anna
+1.0.1, 2021-21-12:
+ifndef::imagesdir[:imagesdir: images]
+:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+== Validierung
+=== Was machts?
+Felder einschränken auf eine definierte Regel z. B. Titel feld darf nicht leer sein.
+Valisierung direkt bei Entitäten nicht auf der Webseite, damit auch wenn die Webseite umgangen wird z. B. mit Tests die Werte gültig sind.
+
+
+== Qute
+=== Was macht's?
+Templating Engine.
+Reflexion ist minimiert.
+
+Reflexion - zur Laufzeit den Aufbau von Objecten zu erkennen und darauf zu zugreifen
+
+Rendern - zur Darstellung Vorbereiten in unserem Fall ein html Dokument
+
+=== Andere Technologien
+Angular
+
+
