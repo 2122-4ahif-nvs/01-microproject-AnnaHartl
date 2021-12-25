@@ -22,3 +22,8 @@ Die Gärtnerei kann ihre Rechnungen einsehen.
 ----
 include::plantuml/erd_garden.puml[]
 ----
+
+== Technologien
+
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/graph-ql.html[Graph QL]
+

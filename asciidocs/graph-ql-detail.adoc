@@ -1,0 +1,159 @@
+= Graph QL
+Hartl Anna
+1.0.1, 2021-21-12:
+ifndef::imagesdir[:imagesdir: images]
+:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+== Was macht's?
+Graph-QL gibt den Client nur die Felder zurück die er auch braucht. Anders als bei REST dort wird ein ganze Klasse mit all ihren Feldern zurück gegeben.
+
+== Alternativen
+REST
+
+== Schritte zum Erfolg
+
+1. Entities hinzugefügt
+2. Repository hinzugefügt
+3. FilmResource hinzugefügt
+
+Testen:
+mit Curl (curl http://localhost:8080/graphql/schema.graphql)
+mit der GraphiQL UI (http://localhost:8080/q/graphql-ui/)
+
+Auf der Seite wird folgende Query eingegen:
+----
+query allFilms {
+    allFilms {
+        title
+        director
+        releaseDate
+        episodeID
+    }
+}
+----
+
+Nur der Titel und das Erscheinungsdatum wird nun ausgegen.
+
+----
+query allFilms {
+    allFilms {
+        title
+        releaseDate
+    }
+}
+----
+
+Um under-fetching zu unterbinden kann man in Graph-Ql mehrere Queries auf einmal schreiben.
+
+----
+query getFilms {
+  film0: film(filmId: 0) {
+    title
+    director
+    releaseDate
+    episodeID
+  }
+  film1: film(filmId: 1) {
+    title
+    director
+    releaseDate
+    episodeID
+  }
+}
+----
+
+4. Methoden zum löschen und hinzufügen erstellt
+Hinweis: das muss mit der Annotation @Mutation angegeben werden
+
+5. Event hinzugefügt
+Hinweis: braucht @Subscription Annotation
+
+6. Query mit default Parameter
+
+----
+query heroWithDefaultSurname {
+  heroesWithSurname{
+    name
+    surname
+    lightSaber
+  }
+}
+query heroWithSurnames {
+  heroesWithSurname(surname: "Vader") {
+    name
+    surname
+    lightSaber
+  }
+}
+----
+
+== Weitere Informationen
+=== Context
+Es kann ein context Injeziert oder als Parameter übergeben werden. Dieser enthält informationen über:
+
+* the original request (Query/Mutation)
+* the arguments
+* the path
+* the selected fields
+* any variables
+
+----
+@Inject
+Context context;
+----
+
+
+----
+@Query
+    @Description("Get a Films from a galaxy far far away")
+    public Film getFilm(Context context, int filmId) {
+        // ...
+    }
+----
+
+=== Errorcode
+Es kann eine eigene Klasse erstellt werden die einen definierten Errorcode ausgibt
+
+----
+@ErrorCode("some-business-error-code")
+public class SomeBusinessException extends RuntimeException {
+    // ...
+}
+----
+
+----
+{
+    "errors": [
+        {
+            "message": "Unexpected failure in the system. Jarvis is working to fix it.",
+            "locations": [
+                {
+                    "line": 2,
+                    "column": 3
+                }
+            ],
+            "path": [
+                "annotatedCustomBusinessException"
+            ],
+            "extensions": {
+                "exception": "io.smallrye.graphql.test.apps.error.api.ErrorApi$AnnotatedCustomBusinessException",
+                "classification": "DataFetchingException",
+                "code": "some-business-error-code"  <1>
+            }
+        }
+    ],
+    "data": {
+        ...
+    }
+}
+----
+
+<1> Der definierte Errorcode
+
+
