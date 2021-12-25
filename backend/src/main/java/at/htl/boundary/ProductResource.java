@@ -2,16 +2,10 @@ package at.htl.boundary;
 
 import at.htl.controller.ProductRepository;
 import at.htl.entity.Product;
-import org.jboss.logging.Logger;
-import org.jboss.resteasy.annotations.Body;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.time.LocalDate;
 import java.util.List;
 
 @Path("/product")
