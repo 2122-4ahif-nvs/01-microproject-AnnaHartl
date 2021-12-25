@@ -10,6 +10,10 @@ ifndef::imagesdir[:imagesdir: images]
 //Need this blank line after ifdef, don't know why...
 ifdef::backend-html5[]
 
+
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/graph-ql.html[Detail Dokumentation]
+
+
 == ProductResource
 Eigene Klasse erstellt mit der Annotation @GraphQLApi
 
@@ -28,4 +32,61 @@ http://localhost:8080/q/graphql-ui/
 
 Macht das Testen möglich, ähnlich wie Swagger für REST
 
+----
+query allFilms {
+  allProducts {
+    name,
+    description
+  }
+}
+----
+
+== Methode GetProduct
+----
+query getProduct {
+product(productId: 1){
+product_id,
+name
+}
+}
+----
+
+== Methode Create und Delete
+----
+@Mutation
+    public Product createProduct(Product newProduct) {
+        repo.save(newProduct);
+        return newProduct;
+    }
+
+@Mutation
+    public Long deleteProduct(Long id) {
+        repo.delete(id);
+        return id;
+    }
+----
+
+NOTE: bei sämtlichen Methoden muss ein Rückgabewert vorhanden sein
+
+
+----
+mutation addProduct {
+  createProduct(newProduct: {
+      name: "Rechen",
+    	price: 10,
+    	productNr: 1234
+  	}
+  )
+  {
+    name
+    price
+  }
+}
+----
+
+----
+mutation DeleteProduct {
+  deleteProduct(id :7)
+}
+----
 
