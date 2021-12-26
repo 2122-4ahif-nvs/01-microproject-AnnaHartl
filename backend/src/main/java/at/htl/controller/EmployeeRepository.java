@@ -9,8 +9,6 @@ import java.util.List;
 
 @ApplicationScoped
 public class EmployeeRepository implements PanacheRepository<Employee> {
-
-
     public void addEmp(@Valid Employee newEmp) {
         this.persist(newEmp);
     }

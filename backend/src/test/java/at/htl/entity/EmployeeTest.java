@@ -1,5 +1,6 @@
 package at.htl.entity;
 
+import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Validate;
 
@@ -14,11 +15,12 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@QuarkusTest
 class EmployeeTest {
 
     //TODO entity test
     @Test
     void createEmployeeValidationFail_01() {
-        Employee emp = new Employee("Maria", null, 1200.80);
+        Employee emp = new Employee("Maria", "", 1200.80);
     }
 }
