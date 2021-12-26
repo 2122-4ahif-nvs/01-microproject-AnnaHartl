@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Customer extends PanacheEntityBase {
+public class Employee extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,5 +17,6 @@ public class Customer extends PanacheEntityBase {
 
     public String firstName;
     public String lastName;
-    public String phoneNumber;
+
+    double salary;
 }
