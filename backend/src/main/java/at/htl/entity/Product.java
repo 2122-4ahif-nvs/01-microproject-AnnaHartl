@@ -32,13 +32,13 @@ public class Product {
 
     @Column(name = "name", unique = true)
     String name;
-    int productNr;
     String description;
     double price;
+    int stock;
 
-    public Product(String name, int productNr, String description, double price) {
+    public Product(String name, int stock, String description, double price) {
         this.name = name;
-        this.productNr = productNr;
+        this.stock = stock;
         this.description = description;
         this.price = price;
     }
@@ -58,13 +58,6 @@ public class Product {
         this.name = name;
     }
 
-    public int getProductNr() {
-        return productNr;
-    }
-
-    public void setProductNr(int productNr) {
-        this.productNr = productNr;
-    }
 
     public String getDescription() {
         return description;
@@ -85,12 +78,20 @@ public class Product {
         this.id = id;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", productNr=" + productNr +
+                ", stock=" + stock +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 '}';

@@ -38,7 +38,7 @@ class ProductRepositoryTest {
 
     @Test
     void updatedProduct() {
-        Product p = new Product("Update", 345, "tss", 20.0);
+        Product p = new Product("Update", 3, "tss", 20.0);
         productRepository.update(2L, p);
     }
 }

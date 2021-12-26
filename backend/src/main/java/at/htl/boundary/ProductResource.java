@@ -35,7 +35,7 @@ public class ProductResource {
             @FormParam("name") String name,
             @FormParam("description") String desc,
             @FormParam("price") double price,
-            @FormParam("productnr") int num
+            @FormParam("stock") int num
     ) {
         Product p = new Product(name, num, desc,price);
         repo.save(p);

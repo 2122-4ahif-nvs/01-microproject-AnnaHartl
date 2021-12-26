@@ -33,7 +33,7 @@ class ProductTest {
     @Transactional
     void createProduct() {
         Product newProduct = new Product(
-                "Sonnenblume", 123,"Sonne, Licht, Wasser", 10);
+                "Sonnenblume", 1,"Sonne, Licht, Wasser", 10);
         em.persist(newProduct);
 
         TypedQuery<Product> query = em.createNamedQuery("Product.findAll", Product.class);
@@ -47,7 +47,7 @@ class ProductTest {
     @Test
     void createProductWithRepo() {
         Product newProduct = new Product(
-                "Kresse", 456,"Feuchtes Tuch", 1.5);
+                "Kresse", 4,"Feuchtes Tuch", 1.5);
 
         repo.save(newProduct);
 
