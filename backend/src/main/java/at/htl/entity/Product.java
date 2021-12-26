@@ -1,5 +1,6 @@
 package at.htl.entity;
 
+import at.htl.controller.NoBadWordsConstraint;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.jboss.resteasy.annotations.Form;
 
@@ -33,6 +34,8 @@ public class Product extends PanacheEntityBase {
 
     @Column(name = "name", unique = true)
     public String name;
+
+    @NoBadWordsConstraint
     public String description;
     public double price;
     public int stock;

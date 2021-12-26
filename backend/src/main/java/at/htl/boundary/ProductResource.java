@@ -4,6 +4,8 @@ import at.htl.controller.ProductRepository;
 import at.htl.entity.Product;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -31,7 +33,7 @@ public class ProductResource {
     @Path("/add")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces(MediaType.TEXT_PLAIN)
-    public String addProduct(
+    public String add(
             @FormParam("name") String name,
             @FormParam("description") String desc,
             @FormParam("price") double price,
@@ -40,6 +42,12 @@ public class ProductResource {
         Product p = new Product(name, num, desc,price);
         repo.save(p);
         return p.toString();
+    }
+
+    @POST
+    @Path("/addProduct")
+    public void addProduct(Product p) {
+        repo.save(p);
     }
 
 }

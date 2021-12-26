@@ -5,10 +5,23 @@ GET http://localhost:8080/product/getAll
 GET http://localhost:8080/product/getProduct/2
 
 ###
-POST http://localhost:8080/product/add
+POST http://localhost:8080/product/addProduct
 Content-Type: application/json
 
 {
   "name": "Petersilie",
-  "description": "Gießen"
+  "description": "Gießen",
+  "price": 5.90,
+  "stock": 10
+}
+
+### Bad Word
+POST http://localhost:8080/product/addProduct
+Content-Type: application/json
+
+{
+  "name": "Das pure Böse",
+  "description": "Bad",
+  "price": 10.0,
+  "stock": 100
 }
