@@ -29,7 +29,7 @@ public class EmployeeResource {
     @POST
     @Path("/add")
     @Transactional
-    public void AddEmp(@Valid Employee newEmp) {
-        repo.persist(newEmp);
+    public void AddEmp( Employee newEmp) {
+        repo.addEmp(newEmp);
     }
 }
