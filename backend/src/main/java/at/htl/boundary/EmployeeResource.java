@@ -7,14 +7,15 @@ import at.htl.entity.Product;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import java.awt.print.Book;
 import java.util.List;
 
 @Path("/employee")
 public class EmployeeResource {
-
 
     @Inject
     EmployeeRepository repo;
@@ -28,7 +29,7 @@ public class EmployeeResource {
     @POST
     @Path("/add")
     @Transactional
-    public void AddEmp(Employee newEmp) {
+    public void AddEmp(@Valid Employee newEmp) {
         repo.persist(newEmp);
     }
 }

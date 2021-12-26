@@ -5,7 +5,17 @@ POST http://localhost:8080/employee/add
 Content-Type: application/json
 
 {
+  "firstName": "",
+  "lastName": "",
+  "salary": 100
+}
+
+###
+POST http://localhost:8080/employee/add
+Content-Type: application/json
+
+{
   "firstName": "Hansi",
-  "lastName": "Herm",
-  "salary": 1200
+  "lastName": "Hern",
+  "salary": 500
 }
