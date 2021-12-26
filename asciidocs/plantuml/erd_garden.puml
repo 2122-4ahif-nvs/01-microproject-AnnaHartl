@@ -1,7 +1,6 @@
 @startuml
-Customer ||..|{ Invoice
-Invoice ||..|| Invoice_item
+Customer ||.l.|{ Invoice
+Invoice ||..|{ Invoice_item
 Invoice_item }|..|| Product
-Employee ||..|{ Invoice
-Inventory ||..|{ Product
+Employee ||.r.|{ Invoice
 @enduml

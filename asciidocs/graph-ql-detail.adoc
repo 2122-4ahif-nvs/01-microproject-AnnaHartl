@@ -1,4 +1,4 @@
-= Graph QL
+= Graph QL - Detail
 Hartl Anna
 1.0.1, 2021-21-12:
 ifndef::imagesdir[:imagesdir: images]

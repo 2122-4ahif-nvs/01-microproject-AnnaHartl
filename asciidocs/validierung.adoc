@@ -1,4 +1,4 @@
-= Cheat Sheet
+= Validierung
 Hartl Anna
 1.0.1, 2021-21-12:
 ifndef::imagesdir[:imagesdir: images]
@@ -10,64 +10,103 @@ ifndef::imagesdir[:imagesdir: images]
 //Need this blank line after ifdef, don't know why...
 ifdef::backend-html5[]
 
-== Validierung
-=== Was machts?
-Felder einschränken auf eine definierte Regel z. B. Titel feld darf nicht leer sein.
-Valisierung direkt bei Entitäten nicht auf der Webseite, damit auch wenn die Webseite umgangen wird z. B. mit Tests die Werte gültig sind.
 
-=== Schritte zum Erfolg
-1. Annotationen hinzugefügt
-2. Methoden im Resource hinzugefügt
-3. Index.html geändert zu einem Formular
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/validierung-detail.html[Detail Dokumentation]
 
-=== Erklärung einzelner Annotationen
+== Validierung der Klasse Employee
 
-@Min(Message, value) = Der Wert den eine Zahl midestens haben muss
-@NotBlank(message="Invalid") = Prüft auf Leerzeichen der ganze String darf nicht nur aus diesen bestehen
-
-== Qute
-=== Was macht's?
-Templating Engine.
-Reflexion ist minimiert.
-
-Reflexion - zur Laufzeit den Aufbau von Objecten zu erkennen und darauf zu zugreifen
-
-Rendern - zur Darstellung Vorbereiten in unserem Fall ein html Dokument
-
-=== Andere Technologien
-Angular
-
-=== Schritte zum Erfolg
-
-1. Hello Resource erstellt
-
-[,shell]
 ----
-curl -w "\n" http://localhost:8080/hello?name=Anna
+@NotBlank() //<1>
+public String firstName;
+
+@NotBlank(message = "Lastname should not be blank")//<2>
+public String lastName;
+
+@Min(value = 500)
+    public double salary;
 ----
 
-Ergebnis: Hello Anna!
+<1> Ohne parameter Message
+<2> Mit eingens definierter Nachricht
 
-2. Alle templates werden in unter Ordner angelegt, damit ist es übersichlicher
+NOTE: Wenn keine Message angegeben wird, wird die default Nachricht in Betriebssystemsprachen ausgegeben
 
-    /src/main/resources/templates
+== Möglichkeiten der Validierung
+=== Endpoint Validierung
 
-3. Item Klasse hinzugefügt
+----
+@POST
+    @Path("/add")
+    @Transactional
+    public void AddEmp(@Valid Employee newEmp) {
+        repo.persist(newEmp);
+    }
+----
 
-Testen: http://localhost:8080/item/1
+Bei verletzung einer order mehrer Regeln wird folgende Meldung im body zurück gegeben
 
-4. Extension Template hinzugefügt
-Berechnet einen vergünstigten Preis
+----
+{
+  "classViolations": [],
+  "parameterViolations": [
+    {
+      "constraintType": "PARAMETER",
+      "message": "muss größer-gleich 500 sein",
+      "path": "AddEmp.newEmp.salary",
+      "value": "100.0"
+    },
+    {
+      "constraintType": "PARAMETER",
+      "message": "darf nicht leer sein",
+      "path": "AddEmp.newEmp.firstName",
+      "value": ""
+    },
+    {
+      "constraintType": "PARAMETER",
+      "message": "Lastname should not be blank",
+      "path": "AddEmp.newEmp.lastName",
+      "value": ""
+    }
+  ],
+  "propertyViolations": [],
+  "returnValueViolations": []
+}
+----
 
-Testen: http://localhost:8080/item/1
+=== Repository Validierung
+Hier wird nicht im Endpoint sondern gleich zentral im Repository Validiert
 
-Anders als oben gibt es nun ein zusätzliches Feld Discounted Preis
+----
+public void addEmp(@Valid Employee newEmp) {
+    this.persist(newEmp);
+}
+----
+
+== Testen
+Zum testen wird die ConstraintViolationException abgefangen die geworfen wird bei einer verletzung.
 
 
-== GRPC (Google Remote Procedure Call)
-=== Was macht's?
+== Eigene Validierungsklasse
 
-Ruft Methoden auf, ist durch Binär schneller als wie REST
+=== Interface Constraint
+Damit wir eine eigene Annotation benutzen können
 
+=== Klasse Validator
+Diese führt die Validierung durch, eine Methode wird implementiert isValid.
 
+----
+@Override
+public boolean isValid(String text,ConstraintValidatorContext cxt) {
+
+    return text != null && !text.contains("superbad") && !text.contains("bad"); //<1>
+}
+----
+
+<1> Es wird darauf überprüft, dass das Wort nicht "bad" und "superbad" enthält
+
+In der Product Klasse angewendet
+----
+@NoBadWordsConstraint
+    public String description;
+----
 

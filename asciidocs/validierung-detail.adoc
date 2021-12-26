@@ -1,6 +1,6 @@
-= Cheat Sheet
+= Validierung - Detail
 Hartl Anna
-1.0.1, 2021-21-12:
+1.0.1, 2021-26-12:
 ifndef::imagesdir[:imagesdir: images]
 :toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
 :sourcedir: ../src/main/java
@@ -10,64 +10,33 @@ ifndef::imagesdir[:imagesdir: images]
 //Need this blank line after ifdef, don't know why...
 ifdef::backend-html5[]
 
-== Validierung
-=== Was machts?
+
+include::https://quarkus.io/guides/validation[Tutorial]
+
+
+== Was machts?
 Felder einschränken auf eine definierte Regel z. B. Titel feld darf nicht leer sein.
 Valisierung direkt bei Entitäten nicht auf der Webseite, damit auch wenn die Webseite umgangen wird z. B. mit Tests die Werte gültig sind.
 
-=== Schritte zum Erfolg
+== Schritte zum Erfolg
 1. Annotationen hinzugefügt
 2. Methoden im Resource hinzugefügt
 3. Index.html geändert zu einem Formular
 
-=== Erklärung einzelner Annotationen
+== Erklärung einzelner Annotationen
 
 @Min(Message, value) = Der Wert den eine Zahl midestens haben muss
+
+@Max(Message, value) = Der Wert den eine Zahl maximal haben darf
+
 @NotBlank(message="Invalid") = Prüft auf Leerzeichen der ganze String darf nicht nur aus diesen bestehen
 
-== Qute
-=== Was macht's?
-Templating Engine.
-Reflexion ist minimiert.
+@Size(min = 4, max = 15, message = "username should have size [{min},{max}]") = Länge muss zwischen den Werten liegen
 
-Reflexion - zur Laufzeit den Aufbau von Objecten zu erkennen und darauf zu zugreifen
+@NotNull(message = "username may not be blank")
+= keine Null Werte
 
-Rendern - zur Darstellung Vorbereiten in unserem Fall ein html Dokument
+@Pattern(regexp = "[a-zA-Z]")
+= muss ein bestimmte Folge von Zeichen enthalten
 
-=== Andere Technologien
-Angular
-
-=== Schritte zum Erfolg
-
-1. Hello Resource erstellt
-
-[,shell]
-----
-curl -w "\n" http://localhost:8080/hello?name=Anna
-----
-
-Ergebnis: Hello Anna!
-
-2. Alle templates werden in unter Ordner angelegt, damit ist es übersichlicher
-
-    /src/main/resources/templates
-
-3. Item Klasse hinzugefügt
-
-Testen: http://localhost:8080/item/1
-
-4. Extension Template hinzugefügt
-Berechnet einen vergünstigten Preis
-
-Testen: http://localhost:8080/item/1
-
-Anders als oben gibt es nun ein zusätzliches Feld Discounted Preis
-
-
-== GRPC (Google Remote Procedure Call)
-=== Was macht's?
-
-Ruft Methoden auf, ist durch Binär schneller als wie REST
-
-
-
+NOTE: Diese Annotationen können auch direct bei einem Methoden Parameter stehen

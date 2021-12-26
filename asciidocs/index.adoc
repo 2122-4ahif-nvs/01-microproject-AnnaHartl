@@ -27,3 +27,14 @@ include::plantuml/erd_garden.puml[]
 
 include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/graph-ql.html[Graph QL]
 
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/panache.html[Panache]
+
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/validierung.html[Validierung]
+
+include::[Qute]
+
+include::[Websocket]
+
+include::[GRPC]
+
+

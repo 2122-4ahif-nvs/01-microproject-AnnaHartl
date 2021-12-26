@@ -1,4 +1,4 @@
-= Qute
+= Panache
 Hartl Anna
 1.0.1, 2021-21-12:
 ifndef::imagesdir[:imagesdir: images]
@@ -10,3 +10,11 @@ ifndef::imagesdir[:imagesdir: images]
 //Need this blank line after ifdef, don't know why...
 ifdef::backend-html5[]
 
+== Was macht's?
+* Automatisch getter und setter generieren
+* PanacheEntityBase
+* PanacheRepositoryBase stellt oft benötigte Methoden zur verfügung
+
+== Schritte zum Erfolg
+1. Entity erstellen und von PanacheEntityBase erben lassen
+2. Repository erstellen und PanacheRepositoryBase implementieren
