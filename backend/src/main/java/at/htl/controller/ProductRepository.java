@@ -28,7 +28,7 @@ public class ProductRepository {
         List<Product> products = query.getResultList();
 
         for (Product p: products) {
-            if(p.getId() == id)
+            if(p.id == id)
                 return p;
         }
         return null;
@@ -63,7 +63,7 @@ public class ProductRepository {
 
     @Transactional
     public Product update(Long id, Product p){
-        p.setId(id);
+        p.id = id;
        return em.merge(p);
     }
 

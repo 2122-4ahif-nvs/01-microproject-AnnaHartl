@@ -20,7 +20,7 @@ class ProductRepositoryTest {
     @Test
     void findByName() {
         Product p = productRepository.findByName("Efeu");
-        assertThat(p.getName(), is(equalTo("Efeu")));
+        assertThat(p.name, is(equalTo("Efeu")));
     }
 
     @Test
