@@ -18,4 +18,14 @@ public class Invoice extends PanacheEntityBase {
     public Employee employee;
 
     public LocalDate purchaseDate;
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", employee=" + employee +
+                ", purchaseDate=" + purchaseDate +
+                '}';
+    }
 }

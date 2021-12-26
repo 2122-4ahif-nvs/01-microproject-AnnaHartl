@@ -18,4 +18,14 @@ public class Customer extends PanacheEntityBase {
     public String firstName;
     public String lastName;
     public String phoneNumber;
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }

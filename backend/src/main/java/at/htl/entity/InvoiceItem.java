@@ -9,9 +9,15 @@ import javax.persistence.Id;
 @Entity
 public class InvoiceItem extends PanacheEntityBase {
 
-    //Embeded id
     @EmbeddedId
-    InvoiceItemId id;
+    public InvoiceItemId id;
+    public int amount;
 
-    int amount;
+    @Override
+    public String toString() {
+        return "InvoiceItem{" +
+                "id=" + id +
+                ", amount=" + amount +
+                '}';
+    }
 }

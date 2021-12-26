@@ -19,4 +19,14 @@ public class Employee extends PanacheEntityBase {
     public String lastName;
 
     double salary;
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", salary=" + salary +
+                '}';
+    }
 }
