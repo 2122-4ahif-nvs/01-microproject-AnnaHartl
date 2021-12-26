@@ -10,6 +10,9 @@ ifndef::imagesdir[:imagesdir: images]
 //Need this blank line after ifdef, don't know why...
 ifdef::backend-html5[]
 
+
+include::https://quarkus.io/guides/smallrye-graphql[Tutorial]
+
 == Was macht's?
 Graph-QL gibt den Client nur die Felder zurück die er auch braucht. Anders als bei REST dort wird ein ganze Klasse mit all ihren Feldern zurück gegeben.
 

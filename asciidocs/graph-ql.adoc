@@ -11,7 +11,7 @@ ifndef::imagesdir[:imagesdir: images]
 ifdef::backend-html5[]
 
 
-include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/graph-ql.html[Detail Dokumentation]
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/graph-ql-detail.html[Detail Dokumentation]
 
 
 == ProductResource
