@@ -56,6 +56,7 @@ public class ProductResource {
     @CheckedTemplate
     public static class Templates {
         public static native TemplateInstance product(Product product);
+        public static native TemplateInstance productList(List<Product> products);
     }
 
     @GET
@@ -63,6 +64,13 @@ public class ProductResource {
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance get(@PathParam("id") Integer id) {
         return Templates.product(repo.findProduct(id));
+    }
+
+    @GET
+    @Path("qute/getAll")
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance getList() {
+        return Templates.productList(repo.findAll());
     }
 
 }
