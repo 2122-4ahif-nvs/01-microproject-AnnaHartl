@@ -40,3 +40,30 @@ Valisierung direkt bei Entitäten nicht auf der Webseite, damit auch wenn die We
 = muss ein bestimmte Folge von Zeichen enthalten
 
 NOTE: Diese Annotationen können auch direct bei einem Methoden Parameter stehen
+
+
+== Eigene Validierung
+
+=== Interface Constraint
+Damit wir eine eigene Annotation benutzen können
+
+=== Klasse Validator
+Diese führt die Validierung durch, eine Methode wird implementiert isValid.
+
+----
+@Override
+public boolean isValid(String text,ConstraintValidatorContext cxt) {
+
+    return text != null && !text.contains("superbad") && !text.contains("bad"); //<1>
+}
+----
+
+<1> Es wird darauf überprüft, dass das Wort nicht "bad" und "superbad" enthält
+
+In der Entität verwendet
+----
+@NoBadWordsConstraint
+    public String description;
+----
+
+

@@ -10,3 +10,123 @@ ifndef::imagesdir[:imagesdir: images]
 //Need this blank line after ifdef, don't know why...
 ifdef::backend-html5[]
 
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/qute-detail.html[Detail Dokumentation]
+
+== Dependency
+----
+<dependency>
+<groupId>io.quarkus</groupId>
+<artifactId>quarkus-resteasy-qute</artifactId>
+</dependency>
+----
+
+== Ordner resources/templates/ProductResource erstellt
+Damit es strukturiert bleibt wird jedes hmtl das auf Product refenziert in diesen Ordner gegeben
+
+== HTML erstellt
+{} - sind Platzhalter mit Punkt kann man auf die Felder der Klasse zugreifen
+
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{product.name}</title>
+</head>
+<body>
+<h1>{product.name}</h1>
+<div>Price: {product.price}</div>
+</body>
+</html>
+----
+
+== Resource Klasse
+----
+@CheckedTemplate
+public static class Templates {
+    public static native TemplateInstance product(Product product); //<1>
+}
+
+@GET
+@Path("qute/get/{id}")
+@Produces(MediaType.TEXT_HTML)
+public TemplateInstance get(@PathParam("id") Integer id) { //<2>
+    return Templates.product(repo.findProduct(id));
+}
+----
+
+<1> Innere Klasse mit Methode der ein Produkt mitgegen wird, worauf das HTML zugriff hat
+<2> Methode die auf die innere Klasse zugreift
+
+.Test
+[NOTE]
+http://localhost:8080/product/qute/get/1
+
+== Extension Method
+Um im HTML auch so etwas wie Methoden benutzen zu können wird eine eigene Klasse erstellt TemplateExtensions.java
+
+----
+public class TemplateExtensions {
+    public static double discountedPrice(Product item) {
+        return item.price * 0.9;
+    }
+}
+----
+Im HTML
+----
+<div>Discounted Price: {product.discountedPrice}</div>
+----
+Es kann wie auf ein Feld zugegriffen werden
+
+== Liste von Produkten
+
+=== HTML erstellt
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<style>
+    table, th, td {
+        border:0.5px solid black;
+    }
+</style>
+<body>
+<table style="width:50%">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+    </tr>
+    {#for product in products} //<1>
+    <tr>
+    <td>{product.name}</td>
+    <td>{product.price}</td>
+    <td>{product.description}</td>
+    </tr>
+    {/for}
+</table>
+
+</body>
+</html>
+----
+<1> Schleife geht alle Produkte durch
+
+=== Methode in ProductResource
+----
+@GET
+@Path("qute/getAll")
+@Produces(MediaType.TEXT_HTML)
+public TemplateInstance getList() {
+    return Templates.productList(repo.findAll());
+}
+----
+
+=== Checked Template Klasse erwewitern
+----
+public static native TemplateInstance productList(List<Product> products);
+----
+.Test
+[NOTE]
+http://localhost:8080/product/qute/getAll

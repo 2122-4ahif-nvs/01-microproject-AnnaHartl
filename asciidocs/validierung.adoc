@@ -1,6 +1,6 @@
 = Validierung
 Hartl Anna
-1.0.1, 2021-21-12:
+1.0.2, 2021-26-12:
 ifndef::imagesdir[:imagesdir: images]
 :toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
 :sourcedir: ../src/main/java
@@ -12,6 +12,14 @@ ifdef::backend-html5[]
 
 
 include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/validierung-detail.html[Detail Dokumentation]
+
+== Dependency
+----
+<dependency>
+<groupId>io.quarkus</groupId>
+<artifactId>quarkus-hibernate-validator</artifactId>
+</dependency>
+----
 
 == Validierung der Klasse Employee
 
@@ -86,7 +94,7 @@ public void addEmp(@Valid Employee newEmp) {
 Zum testen wird die ConstraintViolationException abgefangen die geworfen wird bei einer verletzung.
 
 
-== Eigene Validierungsklasse
+== Eigene Validierung
 
 === Interface Constraint
 Damit wir eine eigene Annotation benutzen können

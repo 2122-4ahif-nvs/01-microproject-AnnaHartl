@@ -12,7 +12,7 @@ ifdef::backend-html5[]
 
 
 == Was macht's?
-Templating Engine.
+QUarkus TEmplates - Templating Engine.
 Reflexion ist minimiert.
 
 Reflexion - zur Laufzeit den Aufbau von Objecten zu erkennen und darauf zu zugreifen
@@ -33,17 +33,23 @@ curl -w "\n" http://localhost:8080/hello?name=Anna
 
 Ergebnis: Hello Anna!
 
-2. Alle templates werden in unter Ordner angelegt, damit ist es übersichlicher
+2. Alle templates werden in Unterordner angelegt, damit ist es übersichlicher
 
     /src/main/resources/templates
 
 3. Item Klasse hinzugefügt
 
-Testen: http://localhost:8080/item/1
+
+.Test
+[NOTE]
+http://localhost:8080/item/1
 
 4. Extension Template hinzugefügt
 Berechnet einen vergünstigten Preis
 
-Testen: http://localhost:8080/item/1
+
+.Test
+[NOTE]
+http://localhost:8080/item/1
 
 Anders als oben gibt es nun ein zusätzliches Feld Discounted Preis

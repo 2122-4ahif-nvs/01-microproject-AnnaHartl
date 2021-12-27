@@ -31,7 +31,7 @@ include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/panache.html
 
 include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/validierung.html[Validierung]
 
-include::[Qute]
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/qute.html[Qute]
 
 include::[Websocket]
 

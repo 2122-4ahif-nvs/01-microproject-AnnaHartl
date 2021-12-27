@@ -13,6 +13,13 @@ ifdef::backend-html5[]
 
 include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/graph-ql-detail.html[Detail Dokumentation]
 
+== Dependency
+----
+<dependency>
+<groupId>io.quarkus</groupId>
+<artifactId>quarkus-smallrye-graphql</artifactId>
+</dependency>
+----
 
 == ProductResource
 Eigene Klasse erstellt mit der Annotation @GraphQLApi

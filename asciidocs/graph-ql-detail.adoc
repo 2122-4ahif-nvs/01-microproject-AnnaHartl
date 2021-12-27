@@ -25,9 +25,10 @@ REST
 2. Repository hinzugefügt
 3. FilmResource hinzugefügt
 
-Testen:
-mit Curl (curl http://localhost:8080/graphql/schema.graphql)
-mit der GraphiQL UI (http://localhost:8080/q/graphql-ui/)
+.Test
+[NOTE]
+* mit Curl (curl http://localhost:8080/graphql/schema.graphql)
+* mit der GraphiQL UI (http://localhost:8080/q/graphql-ui/)
 
 Auf der Seite wird folgende Query eingegen:
 ----
