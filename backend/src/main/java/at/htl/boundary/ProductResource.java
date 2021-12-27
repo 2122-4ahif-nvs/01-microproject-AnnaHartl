@@ -2,6 +2,8 @@ package at.htl.boundary;
 
 import at.htl.controller.ProductRepository;
 import at.htl.entity.Product;
+import io.quarkus.qute.CheckedTemplate;
+import io.quarkus.qute.TemplateInstance;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -48,6 +50,19 @@ public class ProductResource {
     @Path("/addProduct")
     public void addProduct(Product p) {
         repo.save(p);
+    }
+
+
+    @CheckedTemplate
+    public static class Templates {
+        public static native TemplateInstance product(Product product);
+    }
+
+    @GET
+    @Path("qute/get/{id}")
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance get(@PathParam("id") Integer id) {
+        return Templates.product(repo.findProduct(id));
     }
 
 }
