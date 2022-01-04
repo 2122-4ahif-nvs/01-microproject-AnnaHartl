@@ -1,19 +1,20 @@
 package at.htl.controller;
 
+import at.htl.Greeter;
 import at.htl.GreeterGrpc;
 import at.htl.HelloReply;
 import at.htl.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import io.quarkus.grpc.GrpcService;
+import io.smallrye.mutiny.Uni;
 
 @GrpcService
-public class HelloRepository extends GreeterGrpc.GreeterImplBase {
+public class HelloRepository implements Greeter {
 
     @Override
-    public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-        String name = request.getName();
-        String message = "Hello " + name;
-        responseObserver.onNext(HelloReply.newBuilder().setMessage(message).build());
-        responseObserver.onCompleted();
+    public Uni<HelloReply> sayHello(HelloRequest request) {
+        return Uni.createFrom().item(() ->
+                HelloReply.newBuilder().setMessage("Hello " + request.getName()).build()
+        );
     }
 }
