@@ -1,12 +1,10 @@
 package at.htl.entity;
 
-import at.htl.controller.NoBadWordsConstraint;
+import at.htl.NoBadWordsConstraint;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import org.jboss.resteasy.annotations.Form;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @NamedQueries({
