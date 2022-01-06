@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "at.htl";
+option java_outer_classname = "EmployeeProto";
+
+package entity;
+
+service EmployeeSeeker {
+  rpc GetEmp(EmployeeRequest) returns (EmployeeReply) {}
+}
+
+message EmployeeRequest {
+  int32 id = 1;
+}
+
+message EmployeeReply {
+  string firstName = 1;
+  string lastName = 2;
+  double salary = 3;
+}
