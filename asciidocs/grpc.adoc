@@ -15,20 +15,84 @@ include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/grpc-detail.
 Einige dependencies mussten auf reactive umgestellt werden damit grpc funktioniert.
 
 == Proto Datei erstellt
-Mit ... werden im target ordner die dateien erstellt
-
 ----
-mvn compile
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "at.htl";
+option java_outer_classname = "EmployeeProto";
+
+package entity;
+
+service EmployeeSeeker {
+  rpc GetEmp(EmployeeRequest) returns (EmployeeReply) {} <1>
+}
+
+message EmployeeRequest {
+  int32 id = 1;
+}
+
+message EmployeeReply {
+  string firstName = 1;
+  string lastName = 2;
+  double salary = 3;
+}
+----
+<1> Methode
+
+NOTE: Mit *mvn compile* werden die Dateien im target Ordner erstellt
+
+== Sevice Klasse erstellt
+----
+@GrpcService <1>
+public class EmployeeService implements EmployeeSeeker { <2>
+
+    @Inject
+    EmployeeRepository repo;
+
+    @Override
+    @Blocking <3>
+    public Uni<EmployeeReply> getEmp(EmployeeRequest request) {
+        Employee emp = repo
+                .findById((long) request.getId());
+
+        return Uni.createFrom().item(() -> {
+                    return EmployeeReply.newBuilder()
+                            .setFirstName(emp.firstName)
+                            .setLastName(emp.lastName)
+                            .setSalary(emp.salary)
+                            .build();
+                }
+        );
+    }
+}
 ----
 
-== Repository erstellt
+<1> Muss diese Annotation beinhalten
+<2> Service ist im proto File definiert
+<3> Der Prozess ist Blockierend wenn diese Annotation nicht vorhanden ist
+*  io.quarkus.runtime.BlockingOperationNotAllowedException
 
-== Resource Klasse erstellt
+== Endpoint Methode hinzugefügt
+Liefert Employee zurück
+----
+@GrpcClient
+    EmployeeSeeker seeker;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/get/{id}")
+    public Uni<Employee> getEmployee(@PathParam("id") int id) {
+        return seeker.getEmp(EmployeeRequest.newBuilder().setId(id).build())
+                .onItem().transform(reply ->
+                        new Employee(reply.getFirstName(), reply.getLastName(), reply.getSalary()));
+    }
+----
 
 == Configuration in application.properties
-    quarkus.grpc.clients.hello.host=localhost
+IMPORTANT: quarkus.grpc.clients.seeker.host=localhost
 
 .Test
 [NOTE]
-http://localhost:8080/employee/hello/anna
+http://localhost:8080/employee/get/1
 
