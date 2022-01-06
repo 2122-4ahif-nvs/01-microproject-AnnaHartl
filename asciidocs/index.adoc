@@ -1,13 +1,13 @@
 = Gärtnerei Management
 Hartl Anna
-1.0.1, 2021-11-09:
 ifndef::imagesdir[:imagesdir: images]
-:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:toc-placement!:
 :sourcedir: ../src/main/java
 :icons: font
 :sectnums:    // Nummerierung der Überschriften / section numbering
 :toc: left
-//Need this blank line after ifdef, don't know why...
+
+ifdef::backend-html5[]
 
 image::header.jpg[]
 
@@ -26,6 +26,10 @@ include::plantuml/erd_garden.puml[]
 ----
 
 == Technologien
+Die Dokumentation wird in zwei Bereiche aufgeteilt:
+
+* Doku beim Microprojekt
+* Detail Doku bei einem Tutorial (diese ist ausführlicher)
 
 include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/graph-ql.html[Graph QL]
 
