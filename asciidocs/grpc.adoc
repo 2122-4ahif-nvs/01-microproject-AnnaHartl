@@ -1,4 +1,4 @@
-= Cheat Sheet
+= GRPC
 Hartl Anna
 1.0.1, 2021-21-12:
 ifndef::imagesdir[:imagesdir: images]
@@ -9,4 +9,27 @@ ifndef::imagesdir[:imagesdir: images]
 :toc: left
 //Need this blank line after ifdef, don't know why...
 ifdef::backend-html5[]
+
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/grpc-detail.html[Detail Dokumentation]
+
+== Dependency hinzugefügt
+Einige dependencies mussten auf reactive umgestellt werden damit grpc funktioniert.
+
+== Proto Datei erstellt
+Mit ... werden im target ordner die dateien erstellt
+
+----
+mvn compile
+----
+
+== Repository erstellt
+
+== Resource Klasse erstellt
+
+== Configuration in application.properties
+    quarkus.grpc.clients.hello.host=localhost
+
+.Test
+[NOTE]
+http://localhost:8080/employee/hello/anna
 

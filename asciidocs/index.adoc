@@ -8,7 +8,9 @@ ifndef::imagesdir[:imagesdir: images]
 :sectnums:    // Nummerierung der Überschriften / section numbering
 :toc: left
 //Need this blank line after ifdef, don't know why...
-ifdef::backend-html5[]
+
+image::header.jpg[]
+
 
 == Anwendung
 
@@ -33,8 +35,9 @@ include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/validierung.
 
 include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/qute.html[Qute]
 
-include::[Websocket]
+include::[Websocket] //in arbeit
 
-include::[GRPC]
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/grpc.html[GRPC]
+
 
 

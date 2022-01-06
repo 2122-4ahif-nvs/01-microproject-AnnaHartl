@@ -1,6 +1,6 @@
 = Panache
 Hartl Anna
-1.0.1, 2021-21-12:
+1.0.1, 2021-26-12:
 ifndef::imagesdir[:imagesdir: images]
 :toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
 :sourcedir: ../src/main/java

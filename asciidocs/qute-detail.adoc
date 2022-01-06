@@ -11,6 +11,8 @@ ifndef::imagesdir[:imagesdir: images]
 ifdef::backend-html5[]
 
 
+include::https://quarkus.io/guides/qute[Tutorial]
+
 == Was macht's?
 QUarkus TEmplates - Templating Engine.
 Reflexion ist minimiert.

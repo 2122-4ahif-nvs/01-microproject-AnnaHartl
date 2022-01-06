@@ -1,0 +1,106 @@
+= GRPC - Detail
+Hartl Anna
+1.0.1, 2021-01-03:
+ifndef::imagesdir[:imagesdir: images]
+:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+include::https://quarkus.io/guides/grpc-getting-started[Tutorial]
+
+
+== Was macht's?
+gRPC (Google Remote Procedure Call)
+Bessere performance als REST für microservices
+
+Microservice - in kleinere Einheiten aufteilen, gegenteil von Monolit
+
+Remote -  Server führt die Methoden aus
+
+Procedure - Methode ohne Rückgabewert
+
+Internet of Things profitiert von diesem Prinzip damit nicht jedes kleine Lämpchen viele Resources braucht.
+
+image::grpc_server_client.jpg[width=150]
+https://grpc.io/docs/what-is-grpc/introduction/
+
+== Vergleichbare Technologien
+REST
+
+== Dependency
+----
+<dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-grpc</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-resteasy-reactive</artifactId>
+</dependency>
+----
+----
+<build>
+    <plugins>
+        <plugin>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-maven-plugin</artifactId>
+            <version>${quarkus-plugin.version}</version>
+            <extensions>true</extensions>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>build</goal>
+                        <goal>generate-code</goal>
+                        <goal>generate-code-tests</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+----
+
+== Schritte zum Erfolg
+
+1. Proto Datei erstellt
+2. mit *mvn compile* Klassen erstellt im target ordner
+
+TIP: Falls die Klassen nicht richtig angezeigt werden,rechtsklick auf das Projekt und mit Maven neu laden
+
+
+image::maven.png[]
+
+
+3. HelloService hinzugefügt
+
+4. Um auf die Methoden zuzugreifen wird eine Resource erstellt
+
+.Test
+[NOTE]
+http://localhost:8080/hello/anna
+http://localhost:8080/hello
+
+== Weitere Möglichkeit
+So ist die HelloService Klasse noch übersichlicher.
+
+----
+@GrpcService
+public class HelloService extends GreeterGrpc.GreeterImplBase {
+
+    @Override
+    public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+        String name = request.getName();
+        String message = "Hello " + name;  //<1>
+        responseObserver.onNext(HelloReply.newBuilder().setMessage(message).build());
+        responseObserver.onCompleted();
+    }
+}
+----
+
+<1> Der Antwort-String
+
+
