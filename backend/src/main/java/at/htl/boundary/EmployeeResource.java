@@ -1,5 +1,7 @@
 package at.htl.boundary;
 
+import at.htl.EmployeeRequest;
+import at.htl.EmployeeSeeker;
 import at.htl.Greeter;
 import at.htl.HelloRequest;
 import at.htl.controller.EmployeeRepository;
@@ -7,6 +9,7 @@ import at.htl.controller.ProductRepository;
 import at.htl.entity.Employee;
 import at.htl.entity.Product;
 import io.quarkus.grpc.GrpcClient;
+import io.quarkus.qute.TemplateInstance;
 import io.smallrye.mutiny.Uni;
 
 import javax.inject.Inject;
@@ -46,4 +49,20 @@ public class EmployeeResource {
         return hello.sayHello(HelloRequest.newBuilder().setName(name).build())
                 .onItem().transform(helloReply -> helloReply.getMessage());
     }
+
+    @GrpcClient
+    EmployeeSeeker seeker;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/get/{id}")
+    public Uni<Employee> getEmployee(@PathParam("id") int id) {
+        return seeker.getEmp(EmployeeRequest.newBuilder().setId(id).build())
+                .onItem().transform(reply ->
+                        new Employee(
+                                reply.getFirstName(),
+                                reply.getLastName(),
+                                reply.getSalary()));
+    }
+
 }
