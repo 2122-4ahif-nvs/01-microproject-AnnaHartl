@@ -5,3 +5,8 @@ Insert into product(stock, name, price, description) values (5, 'Efeu', 2.5, 'FÃ
 Insert into employee(firstname, lastname, salary) values ('Matina', 'Erl', 1200.50);
 Insert into employee(firstname, lastname, salary) values ('Melina', 'Ferl', 1000);
 Insert into employee(firstname, lastname, salary) values ('Satina', 'Serl', 1500.20);
+
+
+Insert into customer(firstname, lastname, phonenumber) values ('Susi', 'Gerl', '12456');
+Insert into customer(firstname, lastname, phonenumber) values ('Hansi', 'Merl', '1500');
+Insert into customer(firstname, lastname, phonenumber) values ('Herbert', 'Ferl', '235456');

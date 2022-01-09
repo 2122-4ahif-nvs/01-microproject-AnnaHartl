@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 5px;
+    }
+</style>
+<body>
+<div class="container">
+    <br/>
+    <h1>
+        Customer List
+    </h1>
+    <div class="row">
+        <table id="customer_table">
+            <tr>
+                <th>id</th>
+                <th>firstname</th>
+                <th>lastname</th>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var connected = false;
+    var socket;
+
+    var addCustomerToTable = function (id, firstname, lastname) {
+        $("#customer_table").append($("<tr></tr>")
+            .append($("<td></td>").text(id))
+            .append($("<td></td>").text(firstname))
+            .append($("<td></td>").text(lastname))
+        );
+    }
+
+    $(document).ready(function () {
+        connect();
+    });
+
+    var connect = function () {
+        if (!connected) {
+            socket = new WebSocket("ws://" + location.host + "/customer");
+            socket.onopen = function () {
+                connected = true;
+                console.log("Connected to the web socket");
+            };
+
+            socket.onmessage = function (m) {
+                let jsonList = JSON.parse(m.data);
+                console.log("daten: "+m.data);
+                writeCustomersToTable(jsonList);
+            };
+        }
+    };
+
+    var writeCustomersToTable = function (data) {
+        console.log(data);
+        $("#customer_table").empty()
+            .append($("<tr></tr>"))
+            .append($("<th></th>").text("id"))
+            .append($("<th></th>").text("firstname"))
+            .append($("<th></th>").text("lastname"))
+
+        data.forEach(function (obj) {
+            addCustomerToTable(obj.id, obj.firstName, obj.lastName);
+        });
+    }
+</script>
+</body>
+</html>
