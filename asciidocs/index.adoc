@@ -9,9 +9,6 @@ ifndef::imagesdir[:imagesdir: images]
 
 ifdef::backend-html5[]
 
-image::header.jpg[]
-
-
 == Anwendung
 
 Es wird eine Gärnerei verwalted und  die Pflanzen gespeichert die im Lager sind und verkauft wurden.
@@ -39,7 +36,7 @@ include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/validierung.
 
 include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/qute.html[Qute]
 
-include::[Websocket] //in arbeit
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/websockets.html[Websocket]
 
 include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/grpc.html[GRPC]
 

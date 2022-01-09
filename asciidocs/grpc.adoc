@@ -96,3 +96,6 @@ IMPORTANT: quarkus.grpc.clients.seeker.host=localhost
 [NOTE]
 http://localhost:8080/employee/get/1
 
+*Credit:*
+
+Um GRPC besser zu verstehen habe ich mir Darius Pavelescu seinen Code angesehen, dieser diente als Vorlage für mein Beispiel.

@@ -1,0 +1,113 @@
+= Websockets - Detail
+Hartl Anna - erstellt am 09.01.2022
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+
+include::https://quarkus.io/guides/websockets[Tutorial]
+
+== Dependency hinzufügen
+
+----
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-websockets</artifactId>
+</dependency>
+----
+
+== Chatsocket Klasse
+Behandelt den Websockets mit Hilfe von verschiedenen Annotationen
+
+----
+package at.htl.boundary;
+
+import org.jboss.logging.Logger;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+import javax.websocket.Session;
+
+//<1>
+@ServerEndpoint("/chat/{username}")
+@ApplicationScoped
+public class ChatSocket {
+
+    @Inject
+    Logger log;
+
+    //<2>
+    Map<String, Session> sessions = new ConcurrentHashMap<>();
+
+    //<3>
+    @OnOpen
+    public void onOpen(Session session, @PathParam("username") String username) {
+        sessions.put(username, session);
+    }
+
+    //<4>
+    @OnClose
+    public void onClose(Session session, @PathParam("username") String username) {
+        sessions.remove(username);
+        broadcast("User " + username + " left");
+    }
+
+    //<5>
+    @OnError
+    public void onError(Session session, @PathParam("username") String username, Throwable throwable) {
+        sessions.remove(username);
+        broadcast("User " + username + " left on error: " + throwable);
+    }
+
+    //<6>
+    @OnMessage
+    public void onMessage(String message, @PathParam("username") String username) {
+        if (message.equalsIgnoreCase("_ready_")) {
+            broadcast("User " + username + " joined");
+        } else {
+            broadcast(">> " + username + ": " + message);
+        }
+    }
+
+    private void broadcast(String message) {
+        sessions.values().forEach(s -> {
+            s.getAsyncRemote().sendObject(message, result ->  {
+                log.info(message);
+                if (result.getException() != null) {
+                    System.out.println("Unable to send message: " + result.getException());
+                }
+            });
+        });
+    }
+
+}
+----
+
+<1> Path (URL)
+<2> speichert Webockets
+<3> neue Websocket verbindung
+<4> Verbindung abgebrochen
+<5> Fehler ist aufgetreten
+<6> nachricht empfangen
+
+== HTML Seite hinzufügen
+
+== Testen
+Zwei Fenster werden im Browser gestarted, es können auch mehr als zwei Personen miteinader schreiben.
+
+image::chatsocket.png[]
+

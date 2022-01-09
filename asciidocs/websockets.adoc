@@ -1,0 +1,152 @@
+= Websockets
+Hartl Anna - erstellt am 09.01.2022
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+include::https://2122-4ahif-nvs.github.io/01-microproject-AnnaHartl/websockets-detail.html[Detail Dokumentation]
+
+== CustomerWebsocket Klasse erstellt
+
+----
+@ServerEndpoint(value = "/customer")
+@ApplicationScoped
+public class CustomerWebsocket {
+    @Inject
+    CustomerRepository customerRepo;
+
+    List<Session> sessions = new ArrayList<>();
+
+    //<1>
+    @OnOpen
+    public void onOpen(Session session) {
+        sessions.add(session);
+        new Thread(() -> {
+            String customerJson = JsonbBuilder.create().toJson(customerRepo.getAll()); //<2>
+            sendCustomersToSession(session, customerJson);
+        }).start();
+    }
+
+    @OnClose
+    public void onClose(Session session) {
+        sessions.remove(session);
+    }
+
+    @OnMessage
+    public void onMessage(String message) {
+        System.out.println("Der Client hat etwas gesendet: "+message);
+    }
+
+    //<3>
+    private void sendCustomersToSession(Session session, String customerJsonArray) {
+        session.getAsyncRemote().sendText(customerJsonArray, result -> {
+            if (result.getException() != null) {
+                System.out.println("Unable to send message: " + result.getException());
+            }
+        });
+    }
+}
+----
+
+<1> Sobald ein Client sich verbunden hat wird die Liste von Kunden geschickt
+<2> Es musste eine eigene Methode im Repo erstellt werden
+<3> Hilfsmethode, schickt einen String zum Client
+
+== HTML Seite erstellt
+Die Kunden werden in einer Tabelle dargestellt
+
+----
+<!DOCTYPE html>
+<html>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 5px;
+    }
+</style>
+<body>
+<div class="container">
+    <br/>
+    <h1>
+        Customer List
+    </h1>
+    <div class="row">
+        <table id="customer_table">
+            <tr>
+                <th>id</th>
+                <th>firstname</th>
+                <th>lastname</th>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> //<1>
+<script type="text/javascript">
+    var connected = false;
+    var socket;
+
+    //<2>
+    $(document).ready(function () {
+        connect();
+    });
+
+
+    var connect = function () {
+        if (!connected) {
+            socket = new WebSocket("ws://" + location.host + "/customer");  //<3>
+            socket.onopen = function () {
+                connected = true;
+                console.log("Connected to the web socket");
+            };
+
+            socket.onmessage = function (m) { //<3>
+                let jsonList = JSON.parse(m.data);
+                console.log("daten: "+m.data);
+                writeCustomersToTable(jsonList);
+            };
+        }
+    };
+
+    var writeCustomersToTable = function (data) {
+        console.log(data);
+        $("#customer_table").empty()
+            .append($("<tr></tr>"))
+            .append($("<th></th>").text("id"))
+            .append($("<th></th>").text("firstname"))
+            .append($("<th></th>").text("lastname"))
+
+        data.forEach(function (obj) {
+            addCustomerToTable(obj.id, obj.firstName, obj.lastName);
+        });
+    }
+
+    var addCustomerToTable = function (id, firstname, lastname) {
+        $("#customer_table").append($("<tr></tr>")
+            .append($("<td></td>").text(id))
+            .append($("<td></td>").text(firstname))
+            .append($("<td></td>").text(lastname))
+        );
+    }
+
+</script>
+</body>
+</html>
+----
+<1> Sobald die Seite fertig geladen hat versucht sich der Client mit dem Websocket zu verbinden
+<2> Im CustomerWebsocket festgelegte URL
+<3> onmessage empfängt Daten vom Websocket Server
+
+NOTE: Um Daten dem Server zu schicken wird die Methode send aufgerufen, die Triggert beim SErver die Methode onMessage
+
+*Credit:*
+
+Um Websockets besser zu verstehen habe ich mir Niklas Aichinger seinen Code angesehen, dieser diente als Vorlage für mein Beispiel.
