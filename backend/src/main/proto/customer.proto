@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "at.htl";
+option java_outer_classname = "CustomerProto";
+
+package entity;
+
+service CustomerSeeker {
+  rpc GetCustomerList(CustomerVoidRequest) returns (CustomerListReply) {}
+}
+
+message CustomerVoidRequest {
+}
+
+message CustomerListReply {
+  repeated string firstName = 1;
+  repeated string lastName = 2;
+  repeated string phoneNumber = 3;
+}

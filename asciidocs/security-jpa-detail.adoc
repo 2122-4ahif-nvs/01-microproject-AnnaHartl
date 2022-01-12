@@ -1,0 +1,156 @@
+= Security mit JPA
+Hartl Anna - erstellt am 12.1.2022
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+
+include::https://quarkus.io/guides/security-jpa[Tutorial]
+
+== Was macht's?
+Mit RBAC (Role-Based Access Control) kann unterschieden werden welcher User gerade auf den Endpoint zugreift.
+
+== Dependency
+----
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-security-jpa</artifactId>
+</dependency>
+----
+
+== Public Resource Klasse
+----
+@Path("/api/public")
+public class PublicResource {
+
+    @GET
+    @PermitAll //<1>
+    @Produces(MediaType.TEXT_PLAIN)
+    public String publicResource() {
+        return "public";
+   }
+}
+----
+
+<1> Erlaubt allen den Zugriff
+
+
+
+.Test
+[NOTE]
+http://localhost:8080/api/public
+
+== AdminResouce Klasse
+----
+@Path("/api/admin")
+public class AdminResource {
+
+    @GET
+    @RolesAllowed("admin") //<1>
+    @Produces(MediaType.TEXT_PLAIN)
+    public String adminResource() {
+         return "admin";
+    }
+}
+----
+<1> Hier ist sind nur Rollen mit admin erlaubt
+
+
+.Test
+[NOTE]
+http://localhost:8080/api/admin
+
+Ergebnis:
+Es wird kein Zugriff gewährt.
+
+image::admin-not-allowed.png[]
+
+== UserResource Klasse
+
+----
+@Path("/api/users")
+public class UserResource {
+
+    @GET
+    @RolesAllowed("user")
+    @Path("/me")
+    public String me(@Context SecurityContext securityContext) { //<1>
+        return securityContext.getUserPrincipal().getName();
+    }
+}
+----
+<1> Mit dem SecurrityContext können informationen wie der Name von dem User gelesen werden
+
+.Test
+[NOTE]
+http://localhost:8080/api/users/me
+
+Ergebnis:
+Egal was eingegeben wird es wird nicht funktionieren, weil noch kein User angeleft ist.
+
+image::user-login.png[]
+
+== User Entity
+----
+@Entity
+@Table(name = "test_user")
+@UserDefinition //<1>
+public class User extends PanacheEntity {
+    @Username
+    public String username;
+    @Password
+    public String password;
+    @Roles
+    public String role;
+
+    /**
+     * Adds a new user in the database
+     * @param username the user name
+     * @param password the unencrypted password (it will be encrypted with bcrypt)
+     * @param role the comma-separated roles
+     */
+    public static void add(String username, String password, String role) {
+        User user = new User();
+        user.username = username;
+        user.password = BcryptUtil.bcryptHash(password);
+        user.role = role;
+        user.persist();
+    }
+}
+----
+
+<1> Muss bei einer Entität vorhanden sein
+
+== Startup Klasse
+User und Admin werden angelegt. Zu beachten ist hierbei das die Passwörter in Klartext stehen.
+----
+
+@Singleton
+public class Startup {
+    @Transactional
+    public void loadUsers(@Observes StartupEvent evt) {
+        // reset and load all test users
+        User.deleteAll();
+        User.add("admin", "admin", "admin");
+        User.add("user", "user", "user");
+    }
+}
+----
+
+.Test
+[NOTE]
+* curl -i -X GET http://localhost:8080/api/admin
+Funktioniert nicht
+* curl -i -X GET -u admin:admin http://localhost:8080/api/admin
+Funktioniert
+
+
+
+
+
+
