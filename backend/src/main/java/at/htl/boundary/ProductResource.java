@@ -5,11 +5,13 @@ import at.htl.entity.Product;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+@PermitAll
 @Path("/product")
 public class ProductResource {
 

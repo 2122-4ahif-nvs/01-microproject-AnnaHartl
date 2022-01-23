@@ -12,6 +12,7 @@ import io.quarkus.grpc.GrpcClient;
 import io.quarkus.qute.TemplateInstance;
 import io.smallrye.mutiny.Uni;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import java.awt.print.Book;
 import java.util.List;
 
+@RolesAllowed("employee")
 @Path("/employee")
 public class EmployeeResource {
 
