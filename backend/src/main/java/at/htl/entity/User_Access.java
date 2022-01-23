@@ -1,5 +1,4 @@
 package at.htl.entity;
-
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
@@ -8,15 +7,14 @@ import io.quarkus.security.jpa.Roles;
 import io.quarkus.security.jpa.UserDefinition;
 import io.quarkus.security.jpa.Username;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
 @UserDefinition
-public class User extends PanacheEntity {
+public class User_Access extends PanacheEntityBase{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
     @Username
     public String username;
     @Password
@@ -31,7 +29,7 @@ public class User extends PanacheEntity {
      * @param role the comma-separated roles
      */
     public static void add(String username, String password, String role) {
-        User user = new User();
+        User_Access user = new User_Access();
         user.username = username;
         user.password = BcryptUtil.bcryptHash(password);
         user.role = role;
