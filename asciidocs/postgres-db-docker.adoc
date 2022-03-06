@@ -1,0 +1,104 @@
+= PostgresDB in Docker
+Hartl Anna - erstellt am 25.12.2021
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+https://www.youtube.com/watch?v=ERX5cTbUP6k&ab_channel=CodemitFloW[Video Docker Basics]
+
+https://docs.docker.com/samples/postgresql_service/[Docker Doku zu Postgres]
+
+== Dockerfile
+
+https://docs.docker.com/engine/reference/builder/[Dockerfile Dokumentation]
+
+----
+FROM postgres:9.4
+
+ENV POSTGRES_PASSWORD=123
+ENV POSTGRES_USER=anna
+
+RUN echo "Everthing working"
+----
+
+* Image erstellen
+
+    docker build -t postgresdb:2 .
+
+-t | name + optionaler tag
+
+== Daten im Container speichern
+docker run -p 5432:5432 -d --name novolumepg postgresdb:1
+
+-d | im hintergrund starten nur die ID ausgeben
+
+--name | name des containers
+
+-p | port der nach außen:innen zugewiesen wird
+
+== Bind Mount nach außen
+docker run -p 5432:5432 -d --name withvolumepg -v "$(pwd)"/BindMountData:/var/lib/postgresql/data postgresdb:1
+
+-v | BindMount
+
+image::docker-service.png[]
+
+=== Unterschied Bind Mound und Volume
+https://docs.docker.com/storage/volumes/[Volumes erklärt]
+
+https://docs.docker.com/storage/bind-mounts/[Bind Mounts erklärt]
+
+
+Bind Mounts sind Dateien oder Ordner vom Host BS auf die der Docker Container zugriff hat
+
+Volumes sind Ordnder die nur von Docker verwaltet werden und sind unabhängig vom BS des Hostes.
+
+== Docker Compose
+
+https://hub.docker.com/_/postgres[Postgres erweiterungen]
+
+https://dasnetzundich.de/2020/10/docker-compose-erklaert/[Erklärung]
+
+=== Instalieren
+ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+
+----
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: anna
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+----
+
+=== Starten
+    sudo docker-compose up -d
+
+image::docker-compose-service[]
+
+
+== Von außen zum Docker Container verbinden
+
+image::postgres_connect.jpg[]
+
+=== Für Admin
+
+image::adminer-page.png[]
+

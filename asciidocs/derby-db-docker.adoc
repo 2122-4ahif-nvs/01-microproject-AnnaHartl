@@ -1,0 +1,95 @@
+= DerbyDB in Docker
+Hartl Anna - erstellt am 25.12.2021
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+
+https://www.youtube.com/watch?v=ERX5cTbUP6k&ab_channel=CodemitFloW[Video Tutorial]
+
+https://hub.docker.com/r/az82/docker-derby/dockerfile[Beispiel Dockerfile]
+
+
+== Dockerfile
+
+image:docker-architektur.png[]
+
+https://miro.medium.com/max/1400/0*CP98BIIBgMG2K3u5.png
+
+----
+FROM ubuntu:20.04
+
+ENV DERBY_HOME=/derby/db-derby-10.15.2.0-bin <1>
+ENV PATH="/derby/db-derby-10.15.2.0-bin/bin:/derby/db-derby-10.15.2.0-bin/lib:${PATH}"
+ENV DERBY_LIB=${DERBY_HOME}/lib
+ENV CLASSPATH=${DERBY_LIB}/derby.jar:${DERBY_LIB}/derbynet.jar:${DERBY_LIB}/derbytools.jar:${DERBY_LIB}/derbyoptionaltools.jar:${DERBY_LIB}/derbyclient.jar
+
+RUN apt update && \
+    apt install -y unzip curl default-jdk && \
+    apt -y clean && \
+    rm -r /var/cache/apt /var/lib/apt/lists/* <2>
+
+
+RUN mkdir derby && \
+    cd derby && \ <3>
+    curl https://dlcdn.apache.org//db/derby/db-derby-10.15.2.0/db-derby-10.15.2.0-bin.zip -o derbydb.zip && \ <4>
+    unzip derbydb.zip && \
+    rm /derby/derbydb.zip && \ <5>
+    mkdir /data && \
+    cd /data
+
+WORKDIR /data
+EXPOSE 1527
+
+CMD ["/derby/db-derby-10.15.2.0-bin/bin/startNetworkServer", "-noSecurityManager", "-h", "0.0.0.0"] <6>
+#CMD ["java", "-jar", "derbyrun.jar", "start", "-h", "0.0.0.0"]
+#CMD ["java", "-Dderby.stream.error.field=java.lang.System.out", "org.apache.derby.drda.NetworkServerControl", "start", "-h", "0.0.0.0"]
+----
+
+<1> Globale Variablen werden gesetzt
+<2> JDK wird installiert und pakete werden aktualisiert
+<3> Derby verzeichnis wird erstellt und in dieses gewechselt
+<4> Mit curl wird eine zip datei heruntergeladen sie wird als "derbydb.zip" gespeichert
+<5> Zip datei wird enpackt und gelöscht
+<6> In der Command Shell wird der Befehl "/derby/db-derby-10.15.2.0-bin/bin/startNetworkServer -noSecurityManager -h 0.0.0.0" ausgeführt
+
+https://github.com/htl-leonding/leodock
+
+== Image erstellen
+    docker build -t derbydbdemo:1 .
+
+== Daten im Container speichern
+
+    docker run -p 1527:1527 --name derbynovolume derbydbdemo:1
+
+== Bind Mount nach außen
+
+docker run -p 5432:5432 -d --name derbywithvolum -v "$(pwd)"/BindMountData:/var/lib/derby/data derbydbdemo:1
+
+== Verbinden
+Funktioniert nicht
+
+== Docker Compose
+
+----
+version: '3.1'
+
+services:
+
+  db:
+    image: opavlova/db-derby
+    restart: always
+
+
+  quarkus:
+    image: quarkus7/zakolko
+    restart: always
+    ports:
+      - 8080:8080
+
+----
