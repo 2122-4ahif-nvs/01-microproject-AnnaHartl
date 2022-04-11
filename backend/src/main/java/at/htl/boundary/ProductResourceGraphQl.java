@@ -15,7 +15,7 @@ public class ProductResourceGraphQl {
     @Query
     @Description("Get all Products")
     public List<Product> getAllProducts() {
-        return repo.findAll();
+        return repo.findAllProducts();
     }
 
     @Query

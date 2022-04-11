@@ -1,6 +1,7 @@
 package at.htl.controller;
 
 import at.htl.entity.Product;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @ApplicationScoped
-public class ProductRepository {
+public class ProductRepository implements PanacheRepository<Product> {
     @Inject
     EntityManager em;
 
@@ -35,7 +36,7 @@ public class ProductRepository {
         return null;
     }
 
-    public List<Product> findAll()
+    public List<Product> findAllProducts()
     {
         TypedQuery<Product> query = em.createNamedQuery("Product.findAll", Product.class);
         return query.getResultList();
@@ -62,16 +63,31 @@ public class ProductRepository {
         return hashMap;
     }
 
-    @Transactional
-    public Product update(Long id, Product p){
-        p.id = id;
-       return em.merge(p);
-    }
 
     @Transactional
     public void delete(Long id){
         Product p = findProduct(id);
         em.remove(p);
+    }
+
+    @Transactional
+    public void deleteAllProducts(){
+        em.createQuery("DELETE FROM Product").executeUpdate();
+    }
+
+    @Transactional
+    public void add(Product p){
+        persist(p);
+    }
+
+    @Transactional
+    public void update(Product p){
+        Product prod = findById(p.id);
+        prod.stock = p.stock;
+        prod.description = p.description;
+        prod.price = p.price;
+        prod.name = p.name;
+        persist(prod);
     }
 
 }

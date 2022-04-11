@@ -21,7 +21,7 @@ public class ProductResource {
     @GET
     @Path("/getAll")
     public List<Product> getAll() {
-        return repo.findAll();
+        return repo.findAllProducts();
     }
 
 
@@ -70,7 +70,7 @@ public class ProductResource {
     @Path("qute/getAll")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getList() {
-        return Templates.productList(repo.findAll());
+        return Templates.productList(repo.findAllProducts());
     }
 
 }
