@@ -7,6 +7,7 @@ import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "GAR_PRODUCT")
 @NamedQueries({
         @NamedQuery(
                 name = "Product.findAll",
@@ -28,14 +29,18 @@ public class Product extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonbProperty("product_id")
+    @Column(name = "P_ID")
     public Long id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "P_name", unique = true)
     public String name;
 
     @NoBadWordsConstraint
+    @Column(name = "P_description")
     public String description;
+    @Column(name = "P_price")
     public double price;
+    @Column(name = "P_stock")
     public int stock;
 
     public Product(String name, int stock, String description, double price) {

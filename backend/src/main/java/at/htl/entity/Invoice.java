@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "Gar_Invoice")
 public class Invoice extends PanacheEntityBase {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

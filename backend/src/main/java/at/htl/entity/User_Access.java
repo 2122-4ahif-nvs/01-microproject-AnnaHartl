@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @UserDefinition
+@Table(name = "Gar_UserAccess")
 public class User_Access extends PanacheEntityBase{
     @Id
     @Username
