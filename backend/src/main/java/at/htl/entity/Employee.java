@@ -16,15 +16,19 @@ public class Employee extends PanacheEntityBase {
     @JsonbTransient
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "e_id")
     public Long id;
 
     @NotBlank()
+    @Column(name = "e_firstName")
     public String firstName;
 
     @NotBlank(message = "Lastname should not be blank")
+    @Column(name = "e_lastName")
     public String lastName;
 
     @Min(value = 500)
+    @Column(name = "e_salary")
     public double salary;
 
     public Employee(String firstName, String lastName, double salary) {
