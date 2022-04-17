@@ -1,18 +1,21 @@
 package at.htl.controller;
 
+import at.htl.entity.Employee;
 import at.htl.entity.Product;
 import io.agroal.api.AgroalDataSource;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.validation.ConstraintViolationException;
 
 import org.assertj.db.type.Table;
-import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 public class ProductRepositoryTest {
@@ -84,7 +87,6 @@ public class ProductRepositoryTest {
 
         productTable = new Table(ds, "Gar_Product");
         org.assertj.db.api.Assertions.assertThat(productTable).hasNumberOfRows(0);
-
     }
 
     @Test
@@ -108,4 +110,61 @@ public class ProductRepositoryTest {
         assertEquals(prod.stock, p.stock);
     }
 
+    @Test
+    void findProductByIdNotExists() {
+        Product prod = addDummyProduct();
+        addDummyProduct("1");
+
+        Product p = productRepository.findProduct(-1);
+        assertNull(p);
+    }
+
+    @Test
+    void findProductByNameNotExists() {
+        Product prod = addDummyProduct();
+        addDummyProduct("1");
+
+        Exception exception = assertThrows(NoResultException.class, () -> {
+            Product p = productRepository.findByName("");
+        });
+
+        assertEquals("No entity found for query", exception.getMessage() );
+    }
+
+    @Test
+    void findProductByNameExists() {
+        Product prod = addDummyProduct();
+        addDummyProduct("2");
+
+        Product p = productRepository.findByName(prod.name);
+        assertEquals(prod.id, p.id);
+        assertEquals(prod.description, p.description);
+        assertEquals(prod.price, p.price);
+        assertEquals(prod.stock, p.stock);
+    }
+
+    @Test
+    void countByInitialSuccess() {
+        Product prod = addDummyProduct();
+        addDummyProduct("2");
+        addDummyProduct("1");
+
+        Map<Character, Integer> initial = productRepository.countByInitial();
+        assertEquals(1, initial.size());
+        assertEquals(3, initial.get('R'));
+
+        for (Map.Entry<Character, Integer> entry: initial.entrySet()) {
+            System.out.println(entry.getKey() +"  "+ entry.getValue());
+        }
+    }
+
+    @Test
+    void validateNoBadWords(){
+        ConstraintViolationException exception = assertThrows(ConstraintViolationException.class, () -> {
+            Product p = new Product("Böse Pflanze", 2, "bad", 12.99);
+            productRepository.add(p);
+        });
+        assertEquals(1, exception.getConstraintViolations().size());
+        assertEquals("This is a Bad Word", exception.getConstraintViolations().iterator().next().getMessage());
+    }
 }

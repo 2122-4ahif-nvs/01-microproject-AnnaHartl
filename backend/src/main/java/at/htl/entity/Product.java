@@ -24,8 +24,6 @@ import javax.persistence.*;
 }
 )
 public class Product extends PanacheEntityBase {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonbProperty("product_id")

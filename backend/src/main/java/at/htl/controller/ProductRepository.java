@@ -76,7 +76,7 @@ public class ProductRepository implements PanacheRepository<Product> {
     }
 
     @Transactional
-    public void add(Product p){
+    public void add(@Valid Product p){
         persist(p);
     }
 
