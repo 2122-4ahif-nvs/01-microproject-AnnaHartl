@@ -1,0 +1,57 @@
+= PlantLife App
+Hartl Anna - erstellt am 18.06.2022
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+== Ziel
+
+* Liste aller Produkte
+* Ein icon für die App
+* Beim drauftippenn details anzeigen
+* In einen wahrenkorb geben
+* Bestellen
+* Kategorien
+* Filter für Produkte
+* Loading Screen
+* Scrollen
+
+== Erstellen
+
+Es wurde ein jetpack compose Projekt erstellt.
+
+== Daten
+
+Eine SampleData Klasse wurde erstellt in der sich eine Liste von Produkten befindet
+
+== Liste der Produkte
+
+* Im Produkt gibt es ein Feld für die Image Id so kann für jedes Produkt das richtige Bild angezeigt werden
+* Es kann automatisch mit Row gescrollt werden
+
+----
+Text(
+    text = product.description,
+    style = MaterialTheme.typography.body1,
+    maxLines = 2,
+    overflow = TextOverflow.Ellipsis
+)
+----
+
+*maxLines* = zeigt nur 2 Zeilen des Textes an (die Beschreibung würde sonst zu lange sein)
+
+*overflow* = Was mit dem Text passiert der darüber ist
+
+optionen:
+
+* Ellipsis (3 Punkte am Ende)
+* Clip (Einfach abgeschnitten)
+* Visible
+
+https://developer.android.com/reference/kotlin/androidx/compose/ui/text/style/TextOverflow[Doku zu TextOverflow]
+
