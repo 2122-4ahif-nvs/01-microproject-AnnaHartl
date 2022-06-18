@@ -11,7 +11,6 @@ ifdef::backend-html5[]
 
 == Ziel
 
-* Liste aller Produkte
 * Ein icon für die App
 * Beim drauftippenn details anzeigen
 * In einen wahrenkorb geben
@@ -19,6 +18,11 @@ ifdef::backend-html5[]
 * Kategorien
 * Filter für Produkte
 * Loading Screen
+
+
+== Erledigt
+
+* Liste aller Produkte
 * Scrollen
 
 == Erstellen
@@ -32,7 +36,7 @@ Eine SampleData Klasse wurde erstellt in der sich eine Liste von Produkten befin
 == Liste der Produkte
 
 * Im Produkt gibt es ein Feld für die Image Id so kann für jedes Produkt das richtige Bild angezeigt werden
-* Es kann automatisch mit Row gescrollt werden
+* Es kann gescrollt werden weil LazyColumn implementiert ist
 
 ----
 Text(
@@ -55,3 +59,9 @@ optionen:
 
 https://developer.android.com/reference/kotlin/androidx/compose/ui/text/style/TextOverflow[Doku zu TextOverflow]
 
+== Navigieren zur Detailseite
+
+Dependency in Graddle Scrips/build.gradl (Module)
+----
+implementation "androidx.navigation:navigation-compose:$nav_version"
+----
