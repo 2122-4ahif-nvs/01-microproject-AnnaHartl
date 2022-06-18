@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: opavlova/db-derby
+    restart: always
+
+
+  quarkus:
+    image: quarkus7/zakolko
+    restart: always
+    ports:
+      - 8080:8080
+
