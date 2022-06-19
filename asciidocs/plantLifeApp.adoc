@@ -12,18 +12,19 @@ ifdef::backend-html5[]
 == Ziel
 
 * Ein icon für die App
-* Beim drauftippenn details anzeigen
 * In einen wahrenkorb geben
 * Bestellen
 * Kategorien
 * Filter für Produkte
 * Loading Screen
+* top bar
 
 
 == Erledigt
 
 * Liste aller Produkte
 * Scrollen
+* Beim drauftippenn details anzeigen
 
 == Erstellen
 
@@ -63,5 +64,34 @@ https://developer.android.com/reference/kotlin/androidx/compose/ui/text/style/Te
 
 Dependency in Graddle Scrips/build.gradl (Module)
 ----
-implementation "androidx.navigation:navigation-compose:$nav_version"
+implementation "androidx.navigation:navigation-compose:2.4.2"
 ----
+
+Der navController wird nur einmal in PlantLifeApp erstellt und dann durch Parameter in die Methoden gegeben
+
+----
+val navController = rememberNavController()
+----
+
+Event .clickable in Row muss den Typen ()-> Unit haben unser anonyme Methode hat aber die Signatur (String)-> Unit deshalb wird diese in {} eingepackt
+
+----
+Row(
+modifier = Modifier
+.padding(all = 8.dp)
+.clickable { onDetailClicked(product.name) }
+)
+----
+
+* Es kann automatisch mit den Pfeil Tasten am Handy wieder zurück gegangen werden
+
+== Detail Seite
+
+Wie auch bei der Höhe mit .dp gibt es verschiedene Arten pixel zu messen
+
+https://medium.com/analytics-vidhya/what-is-the-difference-between-px-dip-dp-and-sp-e4351fefa685#:~:text=sp%20(Scaleable%20Pixels%20OR%20scale,screen%20density%20and%20user's%20preference[Messarten]
+
+----
+fontSize = 12.sp
+----
+

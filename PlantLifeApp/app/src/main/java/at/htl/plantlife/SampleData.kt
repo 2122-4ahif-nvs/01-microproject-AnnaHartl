@@ -13,7 +13,7 @@ object SampleData {
         Product(
             R.drawable.avocado,
             "Avocado",
-            "Lorbeergewächse (Lauraceae). Der Avocadobaum hat seinen Ursprung in Südmexiko und wurde bereits von den Azteken kultiviert. Der Geschmack des cremigen Fruchtfleisches ist mild, zartschmelzend und mit nussartigem Aroma.",
+            "Gattung: Lorbeergewächse (Lauraceae). \nDer Avocadobaum hat seinen Ursprung in Südmexiko und wurde bereits von den Azteken kultiviert. Der Geschmack des cremigen Fruchtfleisches ist mild, zartschmelzend und mit nussartigem Aroma.",
             10.20,
             5
         ),
