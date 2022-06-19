@@ -1,0 +1,6 @@
+@startuml
+Customer "1" <-l- "n" invoice
+invoice "1 " <-- "1" invoice_item
+invoice_item "n" --> "1" product
+Employee "1" <-r- "n" invoice
+@enduml
