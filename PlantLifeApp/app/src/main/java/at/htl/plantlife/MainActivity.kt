@@ -1,6 +1,8 @@
 package at.htl.plantlife
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -9,6 +11,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -55,7 +59,7 @@ fun PlantLifeApp() {
         PlantLifeNavHost(navController = navController)
 
         Scaffold(
-            topBar = { TopAppBar(title = { Text("PlantLife", color = Color.White) }, backgroundColor = Color(0xff0f9d58)) }
+            topBar = { TopAppBar(title = { Text("PlantLife", color = Color.White) }, backgroundColor = Color(0xFF557E3D)) }
         ) { innerPadding ->
             PlantLifeNavHost(
                 navController = navController,
@@ -132,8 +136,10 @@ fun SingleProduct(product: Product) {
 @Composable
 fun DisplayButtons(product: Product) {
     Row {
-        
-        Button(onClick = { /*TODO*/ }) {
+        Button(
+            onClick = { /*TODO*/ },
+            colors  = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF557E3D))
+        ) {
             Text(text = "In den Einkaufswaagen")
         }
     }

@@ -95,3 +95,27 @@ https://medium.com/analytics-vidhya/what-is-the-difference-between-px-dip-dp-and
 fontSize = 12.sp
 ----
 
+== Problem mit Lila Status Bar
+
+image::puple_status_bar.png[100, 150]
+
+**Lösung:**
+----
+implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+----
+
+Im Theme.kt
+----
+val systemUiController = rememberSystemUiController()
+    if(darkTheme){
+        systemUiController.setSystemBarsColor(
+            color = Color(0xFF353C31)
+        )
+    }else{
+        systemUiController.setSystemBarsColor(
+            color = Color.DarkGray
+        )
+    }
+----
+
+image::green_status_bar.jpeg[100,150]
